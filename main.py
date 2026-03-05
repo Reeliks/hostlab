@@ -1,15 +1,11 @@
+from database import init_database
 from flask import Flask
+from routes import main_bp
 
-app = Flask(__name__)
+def main():
+    init_database()
+    app = Flask(__name__)
+    app.register_blueprint(main_bp)
 
-@app.route("/")
-def home():
-    return """
-        <h1>Hostlab</h1>
-        <p>Log in to get access to virtual machines.</p>
-        <form>
-            <label for="code-input">Code</label>
-            <input id="code-input">
-            <button type="submit">Log in</button>
-        </form>
-    """
+if __name__ == "__main__":
+    main()
