@@ -1,6 +1,18 @@
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY,
-    name TEXT,
+    name TEXT NOT NULL,
     code TEXT NOT NULL UNIQUE,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP 
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    code_changed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP 
+)
+
+CREATE TABLE IF NOT EXISTS sessions(
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    session_token TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_active_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TEXT,
+    ipv4_address TEXT CHECK (LENGTH(ipv4_address) <= 15),
+    user_agent TEXT
 )
